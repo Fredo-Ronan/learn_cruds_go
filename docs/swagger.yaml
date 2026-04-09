@@ -1,0 +1,37 @@
+basePath: /v1
+host: localhost:8080
+info:
+  contact: {}
+  description: API dokumentasi untuk manajemen produk dan user.
+  title: Simple CRUD API
+  version: "1.0"
+paths:
+  /v1/auth/register:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: Route ini akan membuat data user baru
+      parameters:
+      - description: Email User
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: Password User
+        in: formData
+        name: password
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Successfully registered user
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Register atau buat data user baru
+      tags:
+      - auth
+swagger: "2.0"

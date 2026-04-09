@@ -18,6 +18,16 @@ func RegisterAuthRoutes(rg *gin.RouterGroup) {
 	}
 }
 
+// RegisterUserHandler godoc
+// @Summary			Register atau buat data user baru
+// @Description		Route ini akan membuat data user baru
+// @Tags			auth
+// @Accept       	x-www-form-urlencoded
+// @Param        	email     formData  string  true  "Email User"
+// @Param        	password  formData  string  true  "Password User"
+// @Success      	200       {string} string "Successfully registered user"
+// @Failure			500		  {string} string "Internal Server Error"
+// @Router			/v1/auth/register [post]
 func RegisterUserHandler(c *gin.Context) {
 	var newUser models.User
 

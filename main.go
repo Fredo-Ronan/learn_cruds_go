@@ -6,16 +6,24 @@ import (
 	"learn_cruds_go/v1/auth"
 	"learn_cruds_go/v1/product"
 	"learn_cruds_go/v1/user"
+	_ "learn_cruds_go/docs"
+	"github.com/swaggo/gin-swagger"
+    "github.com/swaggo/files"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
-
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
+
+// @title           Simple CRUD API
+// @version         1.0
+// @description     API dokumentasi untuk manajemen produk dan user.
+// @host            localhost:8080
+// @BasePath        /v1
 func main() {
 	errEnv := godotenv.Load() // load .env file
 
@@ -49,6 +57,9 @@ func main() {
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
+
+	// Route untuk Swagger UI
+    r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.GET("/login", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "login.html", nil)
