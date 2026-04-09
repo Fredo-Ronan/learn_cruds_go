@@ -6,8 +6,6 @@ import (
 	"learn_cruds_go/models"
 	"learn_cruds_go/utils"
 	"net/http"
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -40,16 +38,13 @@ func GetAllProductHandler(c *gin.Context){
 func GetProductByIdHandler(c *gin.Context){
 	productId := c.Param("id")
 
-	// parse to unit64
-	u64ProductID, err := strconv.ParseUint(productId, 10, 32)
+	// parse to uint
+	uProductID, err := utils.ConvertUint(productId)
 
 	if err != nil {
-		c.String(http.StatusInternalServerError, "Parsing failed! Internal Server Error!")
+		c.String(http.StatusInternalServerError, err.Error())
 		return
 	}
-
-	// parse to uint
-	uProductID := uint(u64ProductID)
 
 	status, result := fetchProductById(uProductID)
 
