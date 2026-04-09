@@ -6,6 +6,51 @@ info:
   title: Simple CRUD API
   version: "1.0"
 paths:
+  /v1/auth/login:
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: Route ini dipanggil ketika ada user ingin login
+      parameters:
+      - description: Email User
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: Password User
+        in: formData
+        name: password
+        required: true
+        type: string
+      responses:
+        "302":
+          description: Redirected to /dashboard
+          schema:
+            type: string
+        "401":
+          description: Email atau Password Salah!
+          schema:
+            type: string
+      summary: User Login
+      tags:
+      - auth
+  /v1/auth/logout:
+    post:
+      description: Route ini dipanggil ketika user ingin logout. Route ini akan mengambil
+        data dari session currentUser dan membuat maxAge -1 untuk otomatis menghapusnya
+        dari browser (invalidate)
+      responses:
+        "302":
+          description: Redirected to /login
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: User Logout
+      tags:
+      - auth
   /v1/auth/register:
     post:
       consumes:
@@ -34,4 +79,62 @@ paths:
       summary: Register atau buat data user baru
       tags:
       - auth
+  /v1/user/edit:
+    get:
+      description: Route ini digunakan ketika client ingin mengedit data sehingga
+        backend mengembalikan tampilan edit
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: OK
+      security:
+      - CookieAuth: []
+      summary: Get user edit component
+      tags:
+      - user
+  /v1/user/me:
+    get:
+      description: Route ini digunakan ketika client ingin mengambil data user yang
+        sedang login sesuai data di session
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: OK
+      security:
+      - CookieAuth: []
+      summary: Get user data
+      tags:
+      - user
+  /v1/user/update:
+    put:
+      description: Route ini digunakan ketika client ingin mengedit dan menyimpan
+        data user terbaru
+      parameters:
+      - description: Username user
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: Email user
+        in: formData
+        name: email
+        required: true
+        type: string
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: OK
+      security:
+      - CookieAuth: []
+      summary: Update user data
+      tags:
+      - user
+securityDefinitions:
+  CookieAuth:
+    in: cookie
+    name: current_user
+    type: apiKey
 swagger: "2.0"

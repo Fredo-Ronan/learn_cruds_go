@@ -15,6 +15,71 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/auth/login": {
+            "post": {
+                "description": "Route ini dipanggil ketika ada user ingin login",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "User Login",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Email User",
+                        "name": "email",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Password User",
+                        "name": "password",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirected to /dashboard",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Email atau Password Salah!",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/auth/logout": {
+            "post": {
+                "description": "Route ini dipanggil ketika user ingin logout. Route ini akan mengambil data dari session currentUser dan membuat maxAge -1 untuk otomatis menghapusnya dari browser (invalidate)",
+                "tags": [
+                    "auth"
+                ],
+                "summary": "User Logout",
+                "responses": {
+                    "302": {
+                        "description": "Redirected to /login",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/auth/register": {
             "post": {
                 "description": "Route ini akan membuat data user baru",
@@ -56,6 +121,95 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/user/edit": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "Route ini digunakan ketika client ingin mengedit data sehingga backend mengembalikan tampilan edit",
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get user edit component",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/v1/user/me": {
+            "get": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "Route ini digunakan ketika client ingin mengambil data user yang sedang login sesuai data di session",
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Get user data",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/v1/user/update": {
+            "put": {
+                "security": [
+                    {
+                        "CookieAuth": []
+                    }
+                ],
+                "description": "Route ini digunakan ketika client ingin mengedit dan menyimpan data user terbaru",
+                "produces": [
+                    "text/html"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "Update user data",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username user",
+                        "name": "username",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Email user",
+                        "name": "email",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "CookieAuth": {
+            "type": "apiKey",
+            "name": "current_user",
+            "in": "cookie"
         }
     }
 }`

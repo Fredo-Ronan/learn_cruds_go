@@ -46,6 +46,16 @@ type Login struct {
 	Password string `json:"password" form:"password" binding:"required"`
 }
 
+// LoginHandler godoc
+// @Summary			User Login
+// @Description		Route ini dipanggil ketika ada user ingin login
+// @Tags			auth
+// @Accept       	x-www-form-urlencoded
+// @Param        	email     formData  string  true  "Email User"
+// @Param        	password  formData  string  true  "Password User"
+// @Success      	302       {string} string "Redirected to /dashboard"
+// @Failure			401		  {string} string "Email atau Password Salah!"
+// @Router			/v1/auth/login [post]
 func LoginHandler(c *gin.Context) {
 	var loginData Login
 
@@ -77,6 +87,13 @@ func LoginHandler(c *gin.Context) {
 	// c.Redirect(http.StatusTemporaryRedirect, "/dashboard")
 }
 
+// LogoutHandler godoc
+// @Summary			User Logout
+// @Description		Route ini dipanggil ketika user ingin logout. Route ini akan mengambil data dari session currentUser dan membuat maxAge -1 untuk otomatis menghapusnya dari browser (invalidate)
+// @Tags			auth
+// @Success      	302       {string} string "Redirected to /login"
+// @Failure			500		  {string} string "Internal Server Error"
+// @Router			/v1/auth/logout [post]
 func LogoutHandler(c *gin.Context) {
 	session, _ := config.Store.Get(c.Request, config.SessionName)
 

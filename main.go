@@ -19,11 +19,14 @@ import (
 )
 
 
-// @title           Simple CRUD API
-// @version         1.0
-// @description     API dokumentasi untuk manajemen produk dan user.
-// @host            localhost:8080
-// @BasePath        /v1
+// @title           			Simple CRUD API
+// @version         			1.0
+// @description     			API dokumentasi untuk manajemen produk dan user.
+// @host            			localhost:8080
+// @BasePath        			/v1
+// @securityDefinitions.apikey 	CookieAuth
+// @in							cookie
+// @name						current_user
 func main() {
 	errEnv := godotenv.Load() // load .env file
 
