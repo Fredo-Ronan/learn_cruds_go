@@ -1,0 +1,18 @@
+{{ define "user_data_component" }}
+<div>
+    <form class="flex flex-col gap-4" id="user-profile-area">
+        <div class="flex flex-col">
+            <label for="username">Username</label>
+            <input id="username" type="text" value="{{ .Username }}" disabled class="bg-[#c4c4c4] px-4 py-3 outline-none w-[280px] rounded-lg border-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-[#2B3040]">
+        </div>
+        <div class="flex flex-col">
+            <label for="email">Email</label>
+            <input id="email" type="email" value="{{ .Email }}" disabled class="bg-[#c4c4c4] px-4 py-3 outline-none w-[280px] rounded-lg border-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-[#2B3040]">
+        </div>
+
+        <div>
+            <button hx-get="/v1/user/edit" hx-target="#user-profile-area" hx-swap="outerHTML" class="bg-blue-600 px-6 py-2 rounded-lg text-white hover:bg-blue-700">Edit</button>
+        </div>
+    </form>
+</div>
+{{ end }}

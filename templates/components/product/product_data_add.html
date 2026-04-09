@@ -1,0 +1,47 @@
+{{ define "product_add_component" }}
+<div id="product">
+    <button class="px-2 py-2 bg-red-600 rounded-lg text-white my-4 hover:cursor-pointer" hx-get="/v1/product/all" hx-target="#product" hx-swap="outerHTML">Batal</button>
+    <form hx-post="/v1/product/add" class="mb-4" hx-target="#product" hx-swap="outerHTML">
+        <input type="text" name="product_name" placeholder="Product Name" class="bg-[#c4c4c4] px-4 py-3 outline-none w-[280px] rounded-lg border-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-[#2B3040]">
+        <input type="number" name="price" placeholder="Price" class="bg-[#c4c4c4] px-4 py-3 outline-none w-[280px] rounded-lg border-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-[#2B3040]">
+
+        <button type="submit" class="bg-green-600 px-6 py-2 rounded-lg text-white hover:bg-green-700 hover:cursor-pointer">Simpan</button>
+    </form>
+    <div class="overflow-x-auto bg-[#2B3040] rounded-xl p-4 shadow-lg">
+        <table class="w-full text-left text-slate-200">
+            <thead>
+                <tr class="border-b border-slate-700">
+                    <th class="p-3">ID</th>
+                    <th class="p-3">Product Name</th>
+                    <th class="p-3">Price</th>
+                    <th class="p-3 text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody id="user-table-body">
+                {{ range .Products }}
+                <tr class="border-b border-slate-800 hover:bg-slate-700/50 transition-colors">
+                    <td class="p-3">#{{ .ID }}</td>
+                    <td class="p-3 font-semibold text-blue-400">{{ .ProductName }}</td>
+                    <td class="p-3 text-slate-400">{{ .FormatPrice }}</td>
+                    <td class="p-3 text-center">
+                        <button class="bg-red-500/20 text-red-400 px-3 py-1 rounded-md border border-red-500/50 hover:bg-red-500 hover:text-white hover:cursor-pointer transition"
+                                hx-delete="/v1/user/delete/{{ .ID }}"
+                                hx-target="closest tr"
+                                hx-confirm="Hapus user ini?"
+                                hx-swap="outerHTML">
+                            Hapus
+                        </button>
+                    </td>
+                </tr>
+                {{ else }}
+                <tr>
+                    <td colspan="4" class="p-8 text-center text-slate-500 italic">
+                        Belum ada data product tersimpan.
+                    </td>
+                </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{ end }}

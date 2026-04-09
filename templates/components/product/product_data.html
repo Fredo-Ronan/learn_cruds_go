@@ -1,0 +1,34 @@
+{{ define "product_list" }}
+<div id="product">
+    <button class="px-2 py-2 bg-slate-700 rounded-lg text-white my-4 hover:cursor-pointer" 
+            hx-get="/v1/product/add/component" 
+            hx-target="#product" 
+            hx-swap="outerHTML">
+        Tambah Product
+    </button>
+
+    <div class="overflow-x-auto bg-[#2B3040] rounded-xl p-4 shadow-lg">
+        <table class="w-full text-left text-slate-200">
+            <thead>
+                <tr class="border-b border-slate-700">
+                    <th class="p-3">ID</th>
+                    <th class="p-3">Product Name</th>
+                    <th class="p-3">Price</th>
+                    <th class="p-3 text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range .Products }}
+                    {{ template "product_row_view" . }}
+                {{ else }}
+                <tr>
+                    <td colspan="4" class="p-8 text-center text-slate-500 italic">
+                        Belum ada data product tersimpan.
+                    </td>
+                </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{ end }}
